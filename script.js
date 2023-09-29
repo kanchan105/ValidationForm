@@ -4,48 +4,107 @@ const password= document.getElementById("password");
 const email= document.getElementById("email");
 const password2= document.getElementById("password2");
 
-function showError(input,message) //jsjhfhfjfj
-//ejnjwfhwu
+function showError(input,message)
 {
   const formControl=input.parentElement;
   formControl.className='form-control error';
   const small= formControl.querySelector('small');
   small.innerText=message;
 }
-// sjnchsdjsdnvsklvnjdfvnfbn
+
+function showSuccess(input)
+{
+  formControl=input.parentElement;
+  formControl.className="form-control success";
+  
+
+}
+
+function checkEmail(input)
+{  
+  const re =
+  ( /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+ 
+  );   
+  if( re.test(input.value.trim()))
+  {
+    showSuccess(input)
+  }
+  else {
+    showError(input, "Email is not valid ")
+  }
+   
+}
+
+function checkRequired(inputArr)
+{
+  inputArr.forEach(function (input)
+  {  
+    if(input.value.trim()==="")
+    {
+    showError(input, `${fieldName(input)} is Required`)
+    }
+    else
+    showSuccess(input)
+  })
+}
+
+//check input length
+function checkLength(input,min,max)
+{
+  if(input.value.length<min)
+  {
+    showError(input,`${fieldName(input)} must be atleast ${min} charactor`)
+  }
+  else if(input.value.length>max)
+  {
+    showError(input,`${fieldName(input)} must be less than ${max} charactor`)
+  }
+  
+  else {
+    showSuccess(input);
+  }
+  }
+
+ //check passsword
+ function checkPassword(a,b)
+ {
+if(a.value!==b.value)
+{
+  showError(b,"password do not match");
+}
+ } 
+
+// get field name
+function fieldName(input)
+{
+  return input.id.charAt(0).toUpperCase()+ input.id.slice(1);
+}
+
 
 form.addEventListener('submit',(e)=>
 {
-  e.preventDefault();
-   if(username.value==="")
-  { 
-    showError(username,"Username is required")
-  }
+   e.preventDefault();
+  checkRequired([username,email,password,password2]);
+  checkLength(username,3,15);
+  checkLength(password,6,23);
+  checkEmail(email);
+  checkPassword(password,password2)
 }) ; 
+ 
 
 
-// function checkInput(){
-
-//   const usernameValue=username.value.trim();
-//   const emailValue=email.valuetrim();
-//   const passwordValue=password.value.trim();
-//   const password2Value=password2.value.trim();
-
-//   if(usernameValue==="")
-//   {
-//     setErrorFor(username,'username can not be blank')
-//     // console.log("hello")
-//   }
-//   else {
-//     setSuccessFor(username);
-//   }
-// }
-
-// function setErrorFor(input,message)
-// {const formControl=input.parentElement;
-//   const small=formControl.querySelector('small')
-// small.innerText=message;
-// formControl.className= 'form-control error'
 
 
-// }
+
+
+
+
+
+
+
+  
+
+
+
+
